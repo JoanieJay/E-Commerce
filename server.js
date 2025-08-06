@@ -26,7 +26,6 @@ if (process.env.NODE_ENV === "development") {
 }
 // Mount routers
 app.use("/api/users", users);
-app.use("/api/user/me", users);
 app.use("/api/auth", users);
 app.use("/api/products", products);
 app.use("/api/category", category);

@@ -2,6 +2,12 @@ const User = require("../model/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+};
+
 // Users and Authentication
 
 // Get all Users
@@ -27,13 +33,7 @@ exports.getUser = async (req, res) => {
 };
 // Get me
 // Routes PUT /api/user/me
-exports.getMe = async (req, res) => {
-  try {
-    const generateToken = (id) => {
-      return jwt.sign({ id }, process.env.JWT_SECRET, process.env.JWT_EXPIRE);
-    };
-  } catch (err) {}
-};
+exports.getMe = async (req, res) => {};
 // Register a user
 // Routes POST /api/auth/register
 exports.registerUser = async (req, res) => {
@@ -54,7 +54,7 @@ exports.registerUser = async (req, res) => {
       email,
       password: hashedPassword,
       role,
-      token: generateToken(user._id),
+      token: generateToken(user.id),
     });
     res.status(201).json(user);
   } catch (err) {
@@ -72,7 +72,7 @@ exports.loginUser = async (req, res) => {
         _id: user.id,
         name: user.name,
         email: user.email,
-        token: generateToken(user._id),
+        token: generateToken(user.id),
       });
     }
   } catch (err) {
