@@ -16,18 +16,16 @@ exports.getUsers = async (req, res) => {
 };
 
 // Get single user
-// Routes GET /api/user/:id/admin
+// Routes GET /api/auth
 exports.getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    return res.status(200).json({ success: true, data: user });
+    return res.status(200).json({ success: true, data: req.user });
   } catch (err) {
     return res.status(400).json({ error: err.message });
   }
 };
-// Get me
-// Routes PUT /api/user/me
-exports.getMe = async (req, res) => {};
+
 // Register a user
 // Routes POST /api/auth/register
 exports.registerUser = async (req, res) => {
@@ -86,7 +84,7 @@ exports.logoutUser = async (req, res) => {
 };
 
 // Update user
-// Routes PUT /api/user/me
+// Routes PUT /api/auth/me
 exports.updateUser = async (req, res, next) => {
   try {
     let user = await User.findByIdAndUpdate(req.params.id);
