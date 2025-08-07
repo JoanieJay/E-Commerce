@@ -87,18 +87,19 @@ exports.logoutUser = async (req, res) => {
 // Routes PUT /api/auth/me
 exports.updateUser = async (req, res, next) => {
   try {
-    let user = await User.findByIdAndUpdate(req.params.id);
+    const userId = req.user;
+    let user = await User.findByIdAndUpdate(userId);
     if (!user) {
       return res.status(404).json({
         success: false,
-        msg: `User not found with the id of ${req.params.id}`,
+        msg: `User not found with the id of ${userId}`,
       });
     }
-    user = await User.findByIdAndUpdate(req.params.id, req.body, {
+    user = await User.findByIdAndUpdate(userId, req.body, {
       new: true,
       runValidators: true,
     });
-    return res.status(200).json({ success: true, data: user });
+    return res.status(200).json({ success: true, user });
   } catch (err) {
     return res.status(400).json({ error: err.message });
   }

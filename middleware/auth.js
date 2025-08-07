@@ -23,4 +23,15 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+const authorize = async (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      res
+        .status(403)
+        .json({ msg: `User role ${req.user.role} is not authorized` });
+    }
+    next();
+  };
+};
+
+module.exports = { protect, authorize };
