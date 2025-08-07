@@ -7,9 +7,11 @@ const User = require("../model/User");
 exports.getUsers = async (req, res) => {
   try {
     const users = await User.find();
-    res.status(200).json({ success: true, count: users.length, data: users });
+    return res
+      .status(200)
+      .json({ success: true, count: users.length, data: users });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 };
 
@@ -18,9 +20,9 @@ exports.getUsers = async (req, res) => {
 exports.getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    res.status(200).json({ success: true, data: user });
+    return res.status(200).json({ success: true, data: user });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 };
 // Get me
@@ -39,9 +41,9 @@ exports.registerUser = async (req, res) => {
       role,
     });
     const token = user.signedToken();
-    res.status(200).json({ success: true, token });
+    return res.status(200).json({ success: true, token, user });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 };
 
@@ -51,23 +53,27 @@ exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      res
+      return res
         .status(400)
         .json({ success: false, msg: "Please an email and password" });
     }
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
-      res.status(401).json({ success: false, msg: "Invalid credentials" });
+      return res
+        .status(401)
+        .json({ success: false, msg: "Invalid credentials" });
     }
-    const isMatch = await User.matchPassword(password);
+    const isMatch = await user.matchPassword(password);
     if (!isMatch) {
-      res.status(401).json({ success: false, msg: "Invalid credentials" });
+      return res
+        .status(401)
+        .json({ success: false, msg: "Invalid credentials" });
     }
 
     const token = user.signedToken();
-    res.status(200).json({ success: true, token });
+    return res.status(200).json({ success: true, token, user });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 };
 
@@ -85,7 +91,7 @@ exports.updateUser = async (req, res, next) => {
   try {
     let user = await User.findByIdAndUpdate(req.params.id);
     if (!user) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         msg: `User not found with the id of ${req.params.id}`,
       });
@@ -94,8 +100,8 @@ exports.updateUser = async (req, res, next) => {
       new: true,
       runValidators: true,
     });
-    res.status(200).json({ success: true, data: user });
+    return res.status(200).json({ success: true, data: user });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 };

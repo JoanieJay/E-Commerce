@@ -25,13 +25,9 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 // Mount routers
+app.use("/api/user", users);
 app.use("/api/auth", users);
 app.use("/api/products", products);
-app.use("/api/category", category);
-
-// Mount routers
-app.use("/api/user", users);
-app.use("/api/product", products);
 app.use("/api/category", category);
 
 const PORT = process.env.PORT || 3000;
