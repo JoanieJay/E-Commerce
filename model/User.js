@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
@@ -22,8 +23,28 @@ const UserSchema = new mongoose.Schema({
     type: String,
     enum: ["admin", "client"],
   },
-  //   addresses: Address[],
-  //   orders: Order[],
+  // addresses:
+  //   Address[
+  //     {
+  //       type: mongoose.Schema.Types.ObjectId,
+  //       ref: "Adrress",
+  //       required: true,
+  //     }
+  //   ],
+  // orders:
+  //   Order[
+  //     {
+  //       type: mongoose.Schema.Types.ObjectId,
+  //       ref: "Order",
+  //       required: true,
+  //     }
+  //   ],
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
@@ -49,5 +70,17 @@ UserSchema.set("toJSON", {
     return ret;
   },
 });
+
+UserSchema.methods.getResetToken = function () {
+  const resetToken = crypto.randomBytes(15).toString("hex");
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
+};
 
 module.exports = mongoose.model("User", UserSchema);

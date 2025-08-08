@@ -23,7 +23,7 @@ const protect = async (req, res, next) => {
   }
 };
 
-const authorize = async (...roles) => {
+const authorize = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       res

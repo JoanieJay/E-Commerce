@@ -19,8 +19,9 @@ exports.getUsers = async (req, res) => {
 // Routes GET /api/auth
 exports.getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
-    return res.status(200).json({ success: true, data: req.user });
+    const userId = req.user._id;
+    const user = await User.findById(userId);
+    return res.status(200).json({ success: true, data: user });
   } catch (err) {
     return res.status(400).json({ error: err.message });
   }
@@ -103,4 +104,18 @@ exports.updateUser = async (req, res, next) => {
   } catch (err) {
     return res.status(400).json({ error: err.message });
   }
+};
+
+// Forgot password
+// Routes POST /api/auth/password
+exports.forgotPassword = async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return res.status(404).json({ msg: "No user found with this email" });
+  }
+  const resetToken = user.getResetToken();
+  console.log(resetToken);
+  await user.save({ validateBeforeSave: false });
+  return res.status(200).json({ success: true, user });
 };
