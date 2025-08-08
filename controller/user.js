@@ -27,6 +27,18 @@ exports.getUser = async (req, res) => {
   }
 };
 
+// Get single user
+// Routes GET /api/auth
+exports.getUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    return res.status(200).json({ success: true, data: user });
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+};
+
 // Register a user
 // Routes POST /api/auth/register
 exports.registerUser = async (req, res) => {
