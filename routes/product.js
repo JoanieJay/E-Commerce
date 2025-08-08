@@ -7,11 +7,19 @@ const {
   updateProduct,
   deleteProduct,
 } = require("../controller/product");
+const { protect, authorize } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.route("/").get(getProducts).post(createProduct);
+router
+  .route("/")
+  .get(getProducts)
+  .post(protect, authorize("admin"), createProduct);
 
-router.route("/:id").get(getProduct).put(updateProduct).delete(deleteProduct);
+router
+  .route("/:id")
+  .get(getProduct)
+  .put(protect, authorize("admin"), updateProduct)
+  .delete(protect, authorize("admin"), deleteProduct);
 
 module.exports = router;

@@ -16,13 +16,13 @@ exports.getCategories = async (req, res) => {
 // Routes GET /api/v1/category
 exports.getCategory = async (req, res) => {
   try {
-    const category = await Product.findById(req.params.id);
+    const category = await Category.findById(req.params.id);
     res.status(200).json({ success: true, data: category });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
-// Add Product
+// Add Category
 // Routes POST /api/v1/categories
 exports.createCategory = async (req, res) => {
   try {

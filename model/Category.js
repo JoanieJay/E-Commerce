@@ -8,9 +8,14 @@ const CategorySchema = new mongoose.Schema({
   },
   slug: String,
   products: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.ObjectId,
     ref: "Product",
   },
+});
+
+CategorySchema.pre("save", function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
 });
 
 module.exports = mongoose.model("Category", CategorySchema);

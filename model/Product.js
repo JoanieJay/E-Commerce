@@ -16,8 +16,8 @@ const ProductSchema = new mongoose.Schema(
       required: [true, "Price is required"],
     },
     category: {
-      type: String,
-      // enum: [""],
+      type: mongoose.Schema.ObjectId,
+      ref: "Category",
     },
     stock: {
       type: Number,
