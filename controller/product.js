@@ -1,7 +1,7 @@
 const Product = require("../model/Product");
 
 // Get all Products
-// Routes GET /api/v1/products
+// Routes GET /api/products
 exports.getProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -13,7 +13,7 @@ exports.getProducts = async (req, res) => {
   }
 };
 // Get single Product
-// Routes GET /api/v1/product
+// Routes GET /api/product
 exports.getProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -23,7 +23,7 @@ exports.getProduct = async (req, res) => {
   }
 };
 // Add Product
-// Routes POST /api/v1/products
+// Routes POST /api/products
 exports.createProduct = async (req, res) => {
   try {
     const product = await Product.create(req.body);
@@ -33,7 +33,7 @@ exports.createProduct = async (req, res) => {
   }
 };
 // Update Product
-// Routes PUT /api/v1/product
+// Routes PUT /api/product
 exports.updateProduct = async (req, res) => {
   try {
     let product = await Product.findByIdAndUpdate(req.params.id);
@@ -53,7 +53,7 @@ exports.updateProduct = async (req, res) => {
   }
 };
 // Delete Product
-// Routes DELETE /api/v1/product
+// Routes DELETE /api/product
 exports.deleteProduct = async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);

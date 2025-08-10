@@ -14,6 +14,8 @@ connectDB();
 const users = require("./routes/user");
 const products = require("./routes/product");
 const category = require("./routes/category");
+const cart = require("./routes/cart");
+const cartItem = require("./routes/cartItem");
 
 const app = express();
 
@@ -28,6 +30,8 @@ if (process.env.NODE_ENV === "development") {
 app.use("/api/auth", users);
 app.use("/api/products", products);
 app.use("/api/category", category);
+app.use("/api/cart", cart);
+app.use("/api/cartItem", cartItem);
 
 const PORT = process.env.PORT || 3000;
 
