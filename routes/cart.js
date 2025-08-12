@@ -10,8 +10,10 @@ const { protect } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.route("/").post(protect, createCart);
+router.route("/").post(protect, createCart).get(getCart);
 
-router.route("/:id").get(getCart).put(updateCart).delete(clearCart);
+router.route("/:id").put(updateCart);
+
+router.route("/clear").delete(clearCart);
 
 module.exports = router;

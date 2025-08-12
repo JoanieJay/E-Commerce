@@ -61,13 +61,17 @@ exports.updateCart = async (req, res) => {
 // Clear Cart
 // Routes GET /api/cart
 exports.clearCart = async (req, res) => {
-  await Cart.findByIdAndDelete({ user: req.user._id });
-  return res.status(200).json({ success: true, msg: "Cart cleared" });
+  try {
+    await Cart.findOneAndDelete({ user: req.user });
+    return res.status(200).json({ success: true, msg: "Cart cleared" });
+  } catch (err) {
+    return res.status(400).json({ success: false, error: err.message });
+  }
 };
 
 // Delete cart
 // Routes DELETE /api/cart
-exports.deleteCart = async (req, res) => {
+exports.removeCart = async (req, res) => {
   try {
     const cart = await Cart.findByIdAndDelete(req.params.id);
     if (!cart) {
