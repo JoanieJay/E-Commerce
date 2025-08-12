@@ -15,7 +15,6 @@ const users = require("./routes/user");
 const products = require("./routes/product");
 const category = require("./routes/category");
 const cart = require("./routes/cart");
-const cartItem = require("./routes/cartItem");
 
 const app = express();
 
@@ -31,8 +30,10 @@ app.use("/api/auth", users);
 app.use("/api/products", products);
 app.use("/api/category", category);
 app.use("/api/cart", cart);
-app.use("/api/cartItem", cartItem);
 
+app.use("/", (req, res) => {
+  return res.status(404).json({ success: false, error: "Route not found" });
+});
 const PORT = process.env.PORT || 3000;
 
 const server = app.listen(
