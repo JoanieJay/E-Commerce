@@ -18,6 +18,7 @@ exports.getUsers = async (req, res) => {
 // Get single user
 // Routes GET /api/auth
 exports.getUser = async (req, res) => {
+  console.log("req.parmas.joan:", req.params.joan);
   try {
     const userId = req.user._id;
     const user = await User.findById(userId);

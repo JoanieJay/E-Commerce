@@ -15,6 +15,7 @@ const users = require("./routes/user");
 const products = require("./routes/product");
 const category = require("./routes/category");
 const cart = require("./routes/cart");
+const order = require("./routes/order");
 
 const app = express();
 
@@ -30,13 +31,14 @@ app.use("/api/auth", users);
 app.use("/api/products", products);
 app.use("/api/category", category);
 app.use("/api/cart", cart);
+app.use("/api/order", order);
 
 app.use("/", (req, res) => {
   return res.status(404).json({ success: false, error: "Route not found" });
 });
 const PORT = process.env.PORT || 3000;
 
-const server = app.listen(
+app.listen(
   PORT,
   console.log(
     `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.magenta

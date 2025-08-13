@@ -36,7 +36,7 @@ exports.createCategory = async (req, res) => {
 // Routes PUT /api/v1/category
 exports.updateCategory = async (req, res) => {
   try {
-    let category = await Category.findByIdAndUpdate(req.params.id);
+    let category = await Category.findById(req.params.id);
     if (!category) {
       res.status(404).json({
         success: false,

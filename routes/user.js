@@ -17,7 +17,7 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
 router.post("/forgotpassword", forgotPassword);
-router.route("/me").get(protect, getUser).put(protect, updateUser);
+router.route("/me/:joan").get(getUser).put(protect, updateUser);
 router.route("/").get(protect, authorize("admin"), getUsers);
 router.route("/:id").get(protect, authorize("admin"), getUserById);
 
