@@ -16,6 +16,7 @@ const products = require("./routes/product");
 const category = require("./routes/category");
 const cart = require("./routes/cart");
 const order = require("./routes/order");
+const address = require("./routes/address");
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/api/products", products);
 app.use("/api/category", category);
 app.use("/api/cart", cart);
 app.use("/api/order", order);
+app.use("/api/address", address);
 
 app.use("/", (req, res) => {
   return res.status(404).json({ success: false, error: "Route not found" });
