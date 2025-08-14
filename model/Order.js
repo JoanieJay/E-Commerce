@@ -1,24 +1,25 @@
 const mongoose = require("mongoose");
+const { CartItemSchema } = require("./Cart");
 
-const OrderItemSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  productId: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Product",
-    required: true,
-  },
-  quantity: {
-    type: Number,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-});
+// const OrderItemSchema = new mongoose.Schema({
+//   name: {
+//     type: String,
+//     required: true,
+//   },
+//   productId: {
+//     type: mongoose.Schema.ObjectId,
+//     ref: "Product",
+//     required: true,
+//   },
+//   quantity: {
+//     type: Number,
+//     required: true,
+//   },
+//   price: {
+//     type: Number,
+//     required: true,
+//   },
+// });
 
 const OrderSchema = new mongoose.Schema({
   userId: {
@@ -26,16 +27,17 @@ const OrderSchema = new mongoose.Schema({
     ref: "User",
     required: [true],
   },
-  items: [OrderItemSchema],
+  items: [CartItemSchema],
   totalAmount: Number,
-  enum: {
-    status: ["pending", "paid", "shipped", "cancelled"],
-    default: ["pending"],
+  status: {
+    type: String,
+    enum: ["pending", "paid", "shipped", "cancelled"],
+    default: "pending",
   },
   shippingAddress: {
     type: mongoose.Schema.ObjectId,
     ref: "Address",
-    required: [true],
+    required: false,
   },
   createdAt: {
     type: Date,

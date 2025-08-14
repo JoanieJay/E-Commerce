@@ -36,7 +36,7 @@ exports.createProduct = async (req, res) => {
 // Routes PUT /api/product
 exports.updateProduct = async (req, res) => {
   try {
-    let product = await Product.findByIdAndUpdate(req.params.id);
+    let product = await Product.findById(req.params.id);
     if (!product) {
       res.status(404).json({
         success: false,
